@@ -53,7 +53,7 @@ register Sinatra::Flash
     @user = User.new(email: params[:email],
                       password: params[:password],
                       password_confirmation: params[:password_confirmation])
-      if @user.save
+    if @user.save
       session[:user_id] = @user.id
       redirect to('/links')
     else
@@ -63,6 +63,22 @@ register Sinatra::Flash
       end
       flash.now[:notice] = error_string
       erb :'users/new'
+    end
+  end
+
+  get '/sessions/new' do
+    erb :'sessions/new'
+  end
+
+  post '/sessions/new' do
+    if User.authenticate(params[:email],
+                         params[:password])
+      user = User.first(email: params[:email])
+      session[:user_id] = user.id
+      redirect to('/links')
+    else 
+      flash.next[:notice] = 'Bad password, Yev!'
+      redirect to('/sessions/new')  
     end
   end
 
