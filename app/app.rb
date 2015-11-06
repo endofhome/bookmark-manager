@@ -53,11 +53,15 @@ register Sinatra::Flash
     @user = User.new(email: params[:email], 
                       password: params[:password], 
                       password_confirmation: params[:password_confirmation])
-    if @user.save
+      if @user.save
       session[:user_id] = @user.id
       redirect to('/links')
     else
-      flash.now[:notice] = 'Password and confirmation password do not match'
+      error_string = ''
+      @user.errors.each_value do |error|
+        error_string << "#{error.first} "
+      end
+      flash.now[:notice] = error_string
       erb :'users/new'
     end
   end
