@@ -11,7 +11,7 @@ class User
 
   property :password_digest, Text
   validates_confirmation_of :password
-  
+
   property :email, String,
            :format   => :email_address,
            :messages => {
@@ -21,7 +21,7 @@ class User
            }
 
   validates_presence_of :email
-  
+  validates_uniqueness_of :email
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)

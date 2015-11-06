@@ -5,9 +5,9 @@ require_relative 'data_mapper_setup'
 require 'sinatra/flash'
 
 class BookmarkManager < Sinatra::Base
-  
+
 enable :sessions
-set :session_secret, 'super secret'  
+set :session_secret, 'super secret'
 register Sinatra::Flash
 
   helpers do
@@ -50,8 +50,8 @@ register Sinatra::Flash
   end
 
   post '/users' do
-    @user = User.new(email: params[:email], 
-                      password: params[:password], 
+    @user = User.new(email: params[:email],
+                      password: params[:password],
                       password_confirmation: params[:password_confirmation])
       if @user.save
       session[:user_id] = @user.id

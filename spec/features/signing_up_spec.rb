@@ -24,7 +24,7 @@ feature 'Signing up' do
     fill_in :password, with: password
     fill_in :password_confirmation, with: password_confirmation
     click_button 'Sign up!'
-  end 
+  end
 
   scenario "user can't sign up without an email address" do
     visit '/users/new'
@@ -43,6 +43,11 @@ feature 'Signing up' do
     fill_in :password_confirmation, with: 'bla-bla-bla'
     click_button 'Sign up!'
     expect(page).to have_content("Doesn't look like an email address to me")
+  end
+  scenario "Can't sign up twice with the same email address" do
+    sign_up
+    sign_up
+    expect(page).to have_content "Email is already taken"
   end
 end
 
